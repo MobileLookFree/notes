@@ -1,0 +1,53 @@
+{
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.config.js",
+    "lint": "eslint --fix --ext .js,.jsx .",
+    "build": "NODE_ENV=production webpack --config ./config/webpack.config.js",
+    "deploy": "node scripts/gh-pages.js"
+  },
+  "dependencies": {
+    "babel-preset-react-app": "^10.0.1",
+    "classnames": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-error-overlay": "^6.0.10",
+    "reselect": "^5.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/css-modules": "^1.0.2",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^18.2.7",
+    "@types/uuid": "^9.0.8",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^7.32.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-react": "^7.33.1",
+    "gh-pages": "^3.2.3",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "open": "^8.4.0",
+    "sass": "^1.70.0",
+    "sass-loader": "^14.1.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.6",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "typescript": "^4.5.4",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.2"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  }
+}
