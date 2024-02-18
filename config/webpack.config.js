@@ -36,7 +36,7 @@ module.exports = {
           'eslint-loader'],
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/,
         use: [
           prod ? MiniCssExtractPlugin.loader : 'style-loader',
           {
@@ -47,9 +47,12 @@ module.exports = {
               sourceMap: true,
             }
           },
-          'sass-loader'
         ]
       },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      }
     ]
   },
   devtool: prod ? undefined : 'source-map',
@@ -67,6 +70,9 @@ module.exports = {
       app: {
         name: open.apps.chrome,
       },
+    },
+    client: {
+      overlay: false,
     }
   },
   stats: 'errors-warnings',

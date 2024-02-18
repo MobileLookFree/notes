@@ -1,7 +1,9 @@
 import React, { useRef, useCallback, useEffect } from 'react';
+import sanitizeHtml from 'sanitize-html';
 import './index.scss';
 
 import { BlockInterface } from 'interfaces';
+import { setCaretEnd } from 'lib';
 
 interface TextProps {
   index: number,
@@ -14,7 +16,6 @@ interface TextProps {
 };
 
 const Text = ({
-  index,
   block,
   current, setCurrent,
   onAdd, onChange, onDelete }: TextProps) => {
@@ -33,12 +34,19 @@ const Text = ({
 
   const handleBlur = useCallback(event => {
     setCurrent(null);
-    onChange({ ...block, data: event.currentTarget.innerHTML || '' });
+    onChange({
+      ...block,
+      data: sanitizeHtml(event.currentTarget.innerHTML, {
+        allowedTags: ['b', 'i', 'em', 'strong', 'a'],
+        allowedAttributes: { 'a': ['href'] },
+      })
+    });
   }, [setCurrent, onChange]);
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
+      handleBlur(event);
       onAdd();
     };
     if (event.key === 'Backspace' && !event.currentTarget.innerText) {
@@ -51,7 +59,7 @@ const Text = ({
     if (ref?.current) {
       setInnerHTML();
       if (current === uuid) {
-        ref.current.focus();
+        setCaretEnd(ref.current);
       };
     };
   }, [ref, current, block, setInnerHTML]);

@@ -22,7 +22,6 @@ interface NotesProps {
 class Notes extends PureComponent {
   state = {
     blocks: [],
-    previous: null,
     current: null,
   };
 
@@ -33,25 +32,26 @@ class Notes extends PureComponent {
   // blocks
 
   addBlock = () => {
-    const { blocks, current } = this.state;
     const uuid = v4();
-    return this.setState({
-      blocks: [...blocks, { ...TEXT, uuid }],
-      previous: current,
+    return this.setState(prevState => ({
+      ...prevState,
+      blocks: [...prevState.blocks, { ...TEXT, uuid }],
       current: uuid
-    });
+    }));
   };
 
-  changeBlock = (block: BlockInterface) => {
-    const { blocks } = this.state;
-    return this.setState({ blocks: updateArray(blocks, block) });
-  };
+  changeBlock = (block: BlockInterface) =>
+    this.setState(prevState => ({ ...prevState, blocks: updateArray(prevState.blocks, block) }));
 
   deleteBlock = (block: BlockInterface) => {
-    const { blocks, previous } = this.state;
+    const { blocks } = this.state;
+    const index = blocks.findIndex(b => b.uuid === block.uuid);
+    if (index === 0) {
+      return;
+    };
     return this.setState({
       blocks: updateArray(blocks, block, { mode: 'delete' }),
-      current: previous
+      current: blocks[index - 1]?.uuid
     });
   };
 
@@ -86,12 +86,11 @@ class Notes extends PureComponent {
     const { className }: NotesProps = this.props;
     const { blocks } = this.state;
 
-    console.log(blocks);
-
     return (
       <div
         className={classNames('app-notes', className)}
         style={selectStyle(this.props)}
+        contentEditable
       >
         {blocks.map(this.renderBlock)}
       </div>
